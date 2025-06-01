@@ -108,6 +108,7 @@ amd64-build-only:
 .PHONY: awscollector
 awscollector:
 	GOOS=linux GOARCH=amd64 $(GOBUILD) $(LDFLAGS) -o ./bin/awscollector_$(GOOS)_$(GOARCH) ./cmd/awscollector
+	GOOS=darwin GOARCH=arm64 $(GOBUILD) -gcflags="-N -l" -o ./bin/awscollector_mac_arm64_debug ./cmd/awscollector
 	GOOS=windows GOARCH=amd64 EXTENSION=.exe $(GOBUILD) $(LDFLAGS) -o ./bin/windows/aoc_windows_amd64.exe ./cmd/awscollector
 	GOOS=linux GOARCH=amd64 $(GOBUILD) $(LDFLAGS) -o ./bin/healthcheck_$(GOOS)_$(GOARCH) ./cmd/healthcheck
 	GOOS=windows GOARCH=amd64 EXTENSION=.exe $(GOBUILD) $(LDFLAGS) -o ./bin/windows/healthcheck_windows_amd64.exe ./cmd/healthcheck
