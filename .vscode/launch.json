@@ -16,8 +16,7 @@
             "port": 2345,
             "host": "localhost",
             "apiVersion": 2,
-            "substitutePath": [
-            ],
+            "substitutePath": [],
             "showLog": true
         },
         {
@@ -25,23 +24,26 @@
             // https://aws-otel.github.io/docs/getting-started/collector
             // https://aws-otel.github.io/docs/getting-started/remote-sampling
             // make awscollector
+            // go mod download github.com/open-telemetry/opentelemetry-collector-contrib@v0.117.0
+            // ls ~/go/pkg/mod/github.com/open-telemetry/opentelemetry-collector-contrib@v0.117.0
             "name": "Launch adot otel-col",
             "type": "go",
             "request": "launch",
             "mode": "exec",
             "asRoot": false,
             "stopOnEntry": false,
+            // "buildFlags": "-mod=mod",
             "linux": {
-                "program": "${workspaceFolder}/build/xray/xray"
+                // "program": "${workspaceFolder}/build/xray/xray"
             },
             "program": "${workspaceFolder}/bin/awscollector_mac_arm64_debug",
-            // "args": [
-            //     "-o",
-            //     "-l",
-            //     "debug",
-            //     "-n",
-            //     "us-west-2"
-            // ],
+            "args": [
+                "--config",
+                "${workspaceFolder}/config.yaml"
+            ],
+            "env": {
+                "AWS_REGION" : "us-west-2",
+            },
             "dlvFlags": [
                 // "--check-go-version=false",
                 // "--headless=true",
@@ -55,10 +57,50 @@
                     "from": "${workspaceFolder}/cmd/awscollector/main.go",
                     "to": "github.com/aws-observability/aws-otel-collector/cmd/awscollector/main.go"
                 },
-                                {
+                {
                     "from": "${workspaceFolder}",
                     "to": "github.com/aws-observability/aws-otel-collector"
-                }
+                },
+                {
+                    "from": "${workspaceFolder}/vendor/github.com/open-telemetry/opentelemetry-collector-contrib/receiver/awsxrayreceiver",
+                    "to": "github.com/open-telemetry/opentelemetry-collector-contrib/receiver/awsxrayreceiver@v0.117.0"
+                },
+                {
+                    "from": "/Users/lukezha/go/pkg/mod/github.com",
+                    "to": "github.com/"
+                },
+                {
+                    "from": "/Users/lukezha/go/pkg/mod/go.opentelemetry.io",
+                    "to": "go.opentelemetry.io/"
+                },
+                // {
+                //     "from": "~/go/pkg/mod/github.com/open-telemetry/opentelemetry-collector-contrib@v0.117.0",
+                //     "to": "github.com/open-telemetry/opentelemetry-collector-contrib@v0.117.0"
+                // },
+                // {
+                //     "from": "~/go/pkg/mod/go.opentelemetry.io/collector/otelcol@v0.117.0",
+                //     "to": "go.opentelemetry.io/collector/otelcol@v0.117.0"
+                // },
+                // {
+                //     "from": "${workspaceFolder}/vendor/github.com/open-telemetry/opentelemetry-collector-contrib/internal/aws/awsutil",
+                //     "to": "github.com/open-telemetry/opentelemetry-collector-contrib/internal/aws/awsutil"
+                // },
+                // {
+                //     "from": "${workspaceFolder}/vendor/go.opentelemetry.io/collector/otelcol/",
+                //     "to": "go.opentelemetry.io/collector/otelcol@v0.117.0/"
+                // },
+                // {
+                //     "from": "${workspaceFolder}/vendor/go.opentelemetry.io/collector/service/",
+                //     "to": "go.opentelemetry.io/collector/service@v0.117.0/"
+                // },
+                // {
+                //     "from": "${workspaceFolder}/vendor/github.com/open-telemetry/opentelemetry-collector-contrib/exporter/awsemfexporter/",
+                //     "to": "github.com/open-telemetry/opentelemetry-collector-contrib/exporter/awsemfexporter@v0.117.0/"
+                // },
+                // {
+                //     "from": "${workspaceFolder}/vendor/github.com/spf13/cobra",
+                //     "to": "github.com/spf13/cobra@v1.8.1"
+                // }
             ]
         }
     ]

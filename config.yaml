@@ -1,5 +1,16 @@
 extensions:
   health_check:
+  awsproxy:
+    endpoint: 0.0.0.0:2000
+    proxy_address: ""
+    tls:
+      insecure: false
+      server_name_override: ""
+    region: "us-west-2"
+    role_arn: ""
+    aws_endpoint: ""
+    local_mode: false
+    service_name: "xray"
 
 receivers:
   otlp:
